@@ -1,9 +1,7 @@
-import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import analyze from 'rollup-plugin-analyzer';
 import versionInjector from 'rollup-plugin-version-injector';
@@ -39,8 +37,8 @@ function serve() {
 function make_config(input, output, name, extra_plugins) {
     let default_plugins = [
         resolve({
-            browser: false,
-            dedupe: ['svelte'],
+            browser: true,
+            dedupe: ['@fortawesome/fontawesome-svg-core'],
         }),
         commonjs(),
         typescript({
@@ -66,17 +64,7 @@ function make_config(input, output, name, extra_plugins) {
     };
 }
 
-let svelte_plugins = [
-    svelte({
-        preprocess: sveltePreprocess({
-            sourceMap: !production,
-        }),
-        emitCss: false,
-        compilerOptions: {
-            // enable run-time checks when not in production
-            dev: !production,
-        },
-    }),
+let main_plugins = [
     json({ compact: true }),
     versionInjector(),
     //live preview in dev mode
@@ -97,5 +85,5 @@ export default [
         'quizdownKatex',
         []
     ),
-    make_config('src/quizdown.ts', 'public/build/', 'quizdown', svelte_plugins),
+    make_config('src/quizdown.ts', 'public/build/', 'quizdown', main_plugins),
 ];

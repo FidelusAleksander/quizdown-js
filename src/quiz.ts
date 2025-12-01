@@ -1,4 +1,4 @@
-import { writable, get, Writable } from 'svelte/store';
+import { writable, Writable } from './store.js';
 import autoBind from 'auto-bind';
 import type { Config } from './config.js';
 
@@ -202,7 +202,7 @@ export class Quiz {
     }
 
     private setActive() {
-        let idx = get(this.index);
+        let idx = this.index.get();
         this.active.update((act) => this.questions[idx]);
         this.questions[idx].visited = true;
     }
@@ -238,11 +238,11 @@ export class Quiz {
     }
 
     next(): boolean {
-        return this.jump(get(this.index) + 1);
+        return this.jump(this.index.get() + 1);
     }
 
     previous(): boolean {
-        return this.jump(get(this.index) - 1);
+        return this.jump(this.index.get() - 1);
     }
 
     reset(): Boolean {

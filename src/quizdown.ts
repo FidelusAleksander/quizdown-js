@@ -1,4 +1,4 @@
-import App from './App.svelte';
+import { QuizRenderer } from './renderer.js';
 import parseQuizdown from './parser.js';
 import { Config } from './config.js';
 import marked from './customizedMarked.js';
@@ -6,7 +6,7 @@ import type { Quiz } from './quiz';
 
 export interface Quizdown {
     register(extension: QuizdownExtension): Quizdown;
-    createApp(rawQuizdown: string, node: Element, config: Config): App;
+    createApp(rawQuizdown: string, node: Element, config: Config): QuizRenderer | undefined;
     parseQuizdown(rawQuizdown: string, config: Config): Quiz;
     init(config: object): void;
     getMarkedParser(): typeof marked;
@@ -21,11 +21,11 @@ function register(extension: QuizdownExtension): Quizdown {
     return this as Quizdown;
 }
 
-function createApp(rawQuizdown: string, node: Element, config: Config): App {
+function createApp(rawQuizdown: string, node: Element, config: Config): QuizRenderer | undefined {
     node.innerHTML = '';
     let root: ShadowRoot;
     if (!!node.shadowRoot) {
-        //clear root if it allready exists
+        //clear root if it already exists
         root = node.shadowRoot;
         root.innerHTML = '';
     } else {
@@ -33,15 +33,9 @@ function createApp(rawQuizdown: string, node: Element, config: Config): App {
     }
     try {
         let quiz = parseQuizdown(rawQuizdown, config);
-        let app = new App({
-            // https://github.com/sveltejs/svelte/pull/5870
-            target: root,
-            intro: false,
-            props: {
-                quiz: quiz,
-            },
-        });
-        return app;
+        let renderer = new QuizRenderer(quiz, root);
+        renderer.render();
+        return renderer;
     } catch (e) {
         root.innerHTML = `${e}. App could not render. Please check your quizdown syntax.`;
     }
