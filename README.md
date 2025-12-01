@@ -1,12 +1,7 @@
-[![Status: Archived](https://img.shields.io/badge/Status-Archived-yellow.svg)](#)
-
-> **Archived** • This repository was archived on **2025-11-19** and is no longer maintained.
-
-
 # quizdown [![npm version](https://badge.fury.io/js/quizdown.svg)](https://badge.fury.io/js/quizdown) [![Build](https://github.com/bonartm/quizdown-js/actions/workflows/build.yml/badge.svg)](https://github.com/bonartm/quizdown-js/actions/workflows/build.yml)
 > Markdownish syntax to instantly create simple interactive quiz apps for your static website.
 
-I'm working on this project in my free time to learn more about modern web development and languages. This is a toy project and should not be used in serious projects for now. 
+This library has been migrated from Svelte to pure JavaScript for better maintainability and smaller bundle size.
 
 ### 🚀 Try the [quizdown live editor](https://bonartm.github.io/quizdown-live-editor/)
 
@@ -16,6 +11,7 @@ I'm working on this project in my free time to learn more about modern web devel
 - [options](./docs/options.md) for color theme, question shuffling, localization.
 - can be easily included in any website, static site generator or [other web projects](./docs/module_import.md).
 - mobile friendly with touch support for all question types.
+- **Pure JavaScript implementation** - no framework dependencies required at runtime.
 
 ## Usage
 

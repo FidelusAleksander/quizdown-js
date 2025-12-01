@@ -1,5 +1,5 @@
 import marked from 'marked';
-import { parse as parseYaml } from 'yaml';
+import jsYaml from 'js-yaml';
 
 // customize tokenizer to include yaml like header blocks
 const tokenizer: marked.TokenizerObject = {
@@ -15,7 +15,7 @@ const tokenizer: marked.TokenizerObject = {
             return {
                 type: 'options',
                 raw: cap[0],
-                data: parseYaml(cap[3], {}),
+                data: jsYaml.load(cap[3] || ''),
             };
         }
     },
